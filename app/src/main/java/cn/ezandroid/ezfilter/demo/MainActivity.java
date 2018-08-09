@@ -68,6 +68,14 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        $(R.id.multi_video_input_filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MultiVideoInputActivity.class);
+                startActivity(intent);
+            }
+        });
+
         $(R.id.split_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
