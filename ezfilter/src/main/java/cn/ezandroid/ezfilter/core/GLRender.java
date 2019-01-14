@@ -221,7 +221,7 @@ public class GLRender implements OnTextureAcceptableListener {
      * @return
      */
     public boolean resetRotate() {
-        if (mCurrentRotation % 2 == 1) {
+        if (mCurrentRotation % 2 != 0) {
             mCurrentRotation = 0;
             return true;
         }

@@ -216,7 +216,7 @@ public class FitViewHelper {
     private Point centerCrop(int measureWidth, int measureHeight) {
         int previewWidth = 0;
         int previewHeight = 0;
-        if (mAngle / 90 % 2 == 1) {
+        if (mAngle / 90 % 2 != 0) {
             if (mMaxWidth != 0 && mMaxHeight != 0) {
                 if (mAspectRatio > mMaxHeight * 1.0f / mMaxWidth) {
                     previewHeight = (int) (mMaxWidth * mAspectRatio + .5);
