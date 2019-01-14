@@ -17,7 +17,6 @@
 package cn.ezandroid.ezfilter.core.environment;
 
 import android.content.Context;
-import android.content.pm.ConfigurationInfo;
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
 import android.opengl.EGLExt;
@@ -932,9 +931,9 @@ public class GLTextureView extends TextureView implements TextureView.SurfaceTex
                 mEglConfig = view.mEGLConfigChooser.chooseConfig(mEgl, mEglDisplay);
 
                 /*
-                * Create an EGL context. We want to do this as rarely as we can, because an
-                * EGL context is a somewhat heavy object.
-                */
+                 * Create an EGL context. We want to do this as rarely as we can, because an
+                 * EGL context is a somewhat heavy object.
+                 */
                 mEglContext = view.mEGLContextFactory.createContext(mEgl, mEglDisplay, mEglConfig);
             }
             if (mEglContext == null || mEglContext == EGL10.EGL_NO_CONTEXT) {
@@ -1845,10 +1844,9 @@ public class GLTextureView extends TextureView implements TextureView.SurfaceTex
 
         private void checkGLESVersion() {
             if (!mGLESVersionCheckComplete) {
-                mGLESVersion = SystemProperties.getInt("ro.opengles.version", ConfigurationInfo.GL_ES_VERSION_UNDEFINED);
-                if (mGLESVersion >= kGLES_20) {
-                    mMultipleGLESContextsAllowed = true;
-                }
+                // 不用再去获取系统OpenGL版本，因为SDK只使用了OpenGL2.0，Android2.0之后的系统都支持该版本
+                mGLESVersion = kGLES_20;
+                mMultipleGLESContextsAllowed = true;
                 if (LOG_SURFACE) {
                     Log.w(TAG, "checkGLESVersion mGLESVersion =" +
                             " " + mGLESVersion + " mMultipleGLESContextsAllowed = " + mMultipleGLESContextsAllowed);
