@@ -251,7 +251,7 @@ public class CameraFilterActivity extends BaseActivity {
         // 设置自动闪光灯
         List<String> flashModes = parameters.getSupportedFlashModes();
         if (flashModes != null && flashModes.contains(Camera.Parameters.FLASH_MODE_AUTO)) {
-            parameters.setFocusMode(Camera.Parameters.FLASH_MODE_AUTO);
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
         }
 
         // 设置自动对焦
