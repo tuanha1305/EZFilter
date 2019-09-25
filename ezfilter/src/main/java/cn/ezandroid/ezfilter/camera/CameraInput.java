@@ -167,8 +167,11 @@ public class CameraInput extends FBORender implements SurfaceTexture.OnFrameAvai
                         Matrix matrix = new Matrix();
                         if (isFront) {
                             matrix.postScale(-1, 1);
+                            matrix.postRotate(degree - originalDegree);
+                        } else {
+                            matrix.postRotate(degree + originalDegree);
                         }
-                        matrix.postRotate(degree - originalDegree);
+
                         Bitmap bitmap1 = Bitmap.createBitmap(bitmap0, 0, 0,
                                 bitmap0.getWidth(), bitmap0.getHeight(), matrix, true);
 
