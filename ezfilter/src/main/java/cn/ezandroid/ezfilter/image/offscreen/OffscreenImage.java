@@ -84,20 +84,20 @@ public class OffscreenImage {
         return mHeight;
     }
 
-    public Bitmap capture(int width, int height) {
-        mPipeline.onSurfaceChanged(null, width, height);
+    public Bitmap capture() {
+        mPipeline.onSurfaceChanged(null, mWidth, mHeight);
         mPipeline.startRender();
         mPipeline.onDrawFrame(null);
 
         int[] iat = new int[mWidth * mHeight];
-        IntBuffer ib = IntBuffer.allocate(width * height);
-        GLES20.glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ib);
+        IntBuffer ib = IntBuffer.allocate(mWidth * mHeight);
+        GLES20.glReadPixels(0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, ib);
 
         int[] ia = ib.array();
         for (int i = 0; i < mHeight; i++) {
             System.arraycopy(ia, i * mWidth, iat, (mHeight - i - 1) * mWidth, mWidth);
         }
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         bitmap.copyPixelsFromBuffer(IntBuffer.wrap(iat));
 
         mPipeline.onSurfaceDestroyed();
@@ -106,9 +106,5 @@ public class OffscreenImage {
         mInputSurface.release();
         mEgl.release();
         return bitmap;
-    }
-
-    public Bitmap capture() {
-        return capture(mWidth, mHeight);
     }
 }

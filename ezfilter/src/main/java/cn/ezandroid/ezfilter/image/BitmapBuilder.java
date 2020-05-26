@@ -34,15 +34,6 @@ public class BitmapBuilder extends EZFilter.Builder {
         return offscreenImage.capture();
     }
 
-    public Bitmap output(int width, int height) {
-        // 离屏渲染
-        OffscreenImage offscreenImage = new OffscreenImage(mBitmap);
-        for (FilterRender filterRender : mFilterRenders) {
-            offscreenImage.addFilterRender(filterRender);
-        }
-        return offscreenImage.capture(width, height);
-    }
-
     @Override
     public FBORender getStartPointRender(IFitView view) {
         if (mBitmapInput == null) {
