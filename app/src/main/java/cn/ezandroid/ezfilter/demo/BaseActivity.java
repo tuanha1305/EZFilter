@@ -1,8 +1,9 @@
 package cn.ezandroid.ezfilter.demo;
 
-import android.support.annotation.IdRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Activity基类

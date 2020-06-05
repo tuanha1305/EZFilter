@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.6.3'
         classpath 'com.novoda:bintray-release:0.9.1'
     }
 }
@@ -34,7 +34,7 @@ ext {
     versionName = '1.0.0' // 这里的versionName完整格式为 x.x.x
 
     // Sdk and tools
-    minSdkVersion = 18
+    minSdkVersion = 19
     targetSdkVersion = 28
     compileSdkVersion = 28
     buildToolsVersion = "28.0.3"

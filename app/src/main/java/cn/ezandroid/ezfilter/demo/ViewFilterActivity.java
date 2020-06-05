@@ -2,13 +2,14 @@ package cn.ezandroid.ezfilter.demo;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 
 import cn.ezandroid.ezfilter.EZFilter;
 import cn.ezandroid.ezfilter.core.GLRender;
@@ -18,7 +19,7 @@ import cn.ezandroid.ezfilter.core.environment.TextureFitView;
 import cn.ezandroid.ezfilter.core.output.BitmapOutput;
 import cn.ezandroid.ezfilter.demo.render.WobbleRender;
 import cn.ezandroid.ezfilter.media.record.ISupportRecord;
-import cn.ezandroid.ezfilter.view.glview.GLLinearLayout;
+import cn.ezandroid.ezfilter.view.glview.GLRelativeLayout;
 
 /**
  * ViewFilterActivity
@@ -30,8 +31,9 @@ public class ViewFilterActivity extends BaseActivity {
 
     private TextureFitView mRenderView;
     private ImageView mPreviewImage;
-    private GLLinearLayout mLinearLayout;
+    private GLRelativeLayout mLinearLayout;
     private WebView mWebView;
+    private ImageView mImageView;
     private Button mRecordButton;
 
     private RenderPipeline mRenderPipeline;
@@ -47,12 +49,15 @@ public class ViewFilterActivity extends BaseActivity {
         mPreviewImage = $(R.id.preview_image);
         mLinearLayout = $(R.id.gl_layout);
         mWebView = $(R.id.web_view);
+        mImageView = $(R.id.image_view);
 
         mRecordButton = $(R.id.record);
 
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.loadUrl("https://github.com/uestccokey/EZFilter");
+
+        mImageView.setImageResource(R.drawable.preview);
 
         // 为了确保mLinearLayout已经初始化完成，宽高不为0
         mLinearLayout.post(new Runnable() {

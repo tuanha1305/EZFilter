@@ -3,11 +3,12 @@ package cn.ezandroid.ezfilter.demo;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -2,9 +2,8 @@ package cn.ezandroid.ezfilter.demo;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
-import com.squareup.leakcanary.LeakCanary;
+import androidx.multidex.MultiDex;
 
 /**
  * EZApplication
@@ -26,6 +25,5 @@ public class EZApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
     }
 }
