@@ -61,6 +61,16 @@ public class GLRender implements OnTextureAcceptableListener {
 
     protected int mTextureIn;
 
+    protected int mMarginLeft = 0;
+    protected int mMarginTop = 0;
+    protected int mMarginRight = 0;
+    protected int mMarginBottom = 0;
+
+    protected int mPaddingLeft = 0;
+    protected int mPaddingTop = 0;
+    protected int mPaddingRight = 0;
+    protected int mPaddingBottom = 0;
+
     protected int mWidth;
     protected int mHeight;
 
@@ -74,6 +84,11 @@ public class GLRender implements OnTextureAcceptableListener {
     protected int mFps;
     private long mLastTime;
     private int mFrameCount;
+
+    private float mBackgroundRed;
+    private float mBackgroundGreen;
+    private float mBackgroundBlue;
+    private float mBackgroundAlpha;
 
     public GLRender() {
         initWorldVertices();
@@ -206,6 +221,54 @@ public class GLRender implements OnTextureAcceptableListener {
         }
     }
 
+    public void setMarginLeft(int marginLeft) {
+        this.mMarginLeft = marginLeft;
+    }
+
+    public void setMarginTop(int marginTop) {
+        this.mMarginTop = marginTop;
+    }
+
+    public void setMarginRight(int marginRight) {
+        this.mMarginRight = marginRight;
+    }
+
+    public void setMarginBottom(int marginBottom) {
+        this.mMarginBottom = marginBottom;
+    }
+
+    public void setPaddingLeft(int paddingLeft) {
+        this.mPaddingLeft = paddingLeft;
+    }
+
+    public void setPaddingTop(int paddingTop) {
+        this.mPaddingTop = paddingTop;
+    }
+
+    public void setPaddingRight(int paddingRight) {
+        this.mPaddingRight = paddingRight;
+    }
+
+    public void setPaddingBottom(int paddingBottom) {
+        this.mPaddingBottom = paddingBottom;
+    }
+
+    public void setBackgroundRed(float red) {
+        this.mBackgroundRed = red;
+    }
+
+    public void setBackgroundGreen(float green) {
+        this.mBackgroundGreen = green;
+    }
+
+    public void setBackgroundBlue(float blue) {
+        this.mBackgroundBlue = blue;
+    }
+
+    public void setBackgroundAlpha(float alpha) {
+        this.mBackgroundAlpha = alpha;
+    }
+
     /**
      * 获取顺时针旋转90度的次数
      *
@@ -317,7 +380,9 @@ public class GLRender implements OnTextureAcceptableListener {
     }
 
     protected void logDraw() {
-        Log.e("RenderDraw", toString() + " Fps:" + mFps);
+        if (L.LOG_RENDER_DRAW) {
+            Log.e("RenderDraw", toString() + " Fps:" + mFps);
+        }
     }
 
     @Override
@@ -336,15 +401,14 @@ public class GLRender implements OnTextureAcceptableListener {
         if (mSizeChanged) {
             onRenderSizeChanged();
         }
+
+        logDraw();
+
         runAll(mRunOnDraw);
         drawFrame();
         runAll(mRunOnDrawEnd);
 
         mSizeChanged = false; // 在drawFrame执行后再重置状态，因为drawFrame中可能用到该状态
-
-        if (L.LOG_RENDER_DRAW) {
-            logDraw();
-        }
 
         calculateFps();
     }
@@ -377,18 +441,24 @@ public class GLRender implements OnTextureAcceptableListener {
         if (mTextureIn == 0) {
             return;
         }
+
+        GLES20.glClearColor(mBackgroundRed, mBackgroundGreen, mBackgroundBlue, mBackgroundAlpha);
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+
+        GLES20.glEnable(GLES20.GL_SCISSOR_TEST);
+
         if (mWidth != 0 && mHeight != 0) {
-            GLES20.glViewport(0, 0, mWidth, mHeight);
+            GLES20.glScissor(mPaddingLeft, mPaddingBottom, mWidth - mPaddingLeft - mPaddingRight, mHeight - mPaddingTop - mPaddingBottom);
+            GLES20.glViewport(mMarginLeft, mMarginBottom, mWidth - mMarginLeft - mMarginRight, mHeight - mMarginTop - mMarginBottom);
         }
 
         GLES20.glUseProgram(mProgramHandle);
 
-        GLES20.glClearColor(0, 0, 0, 0);
-        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-
         bindShaderValues();
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+
+        GLES20.glDisable(GLES20.GL_SCISSOR_TEST);
     }
 
     /**
@@ -454,7 +524,9 @@ public class GLRender implements OnTextureAcceptableListener {
     }
 
     protected void logDestroy() {
-        Log.e("RenderDestroy", toString() + " Thread:" + Thread.currentThread().getName());
+        if (L.LOG_RENDER_DESTROY) {
+            Log.e("RenderDestroy", toString() + " Thread:" + Thread.currentThread().getName());
+        }
     }
 
     /**
@@ -475,9 +547,7 @@ public class GLRender implements OnTextureAcceptableListener {
             mFragmentShaderHandle = 0;
         }
 
-        if (L.LOG_RENDER_DESTROY) {
-            logDestroy();
-        }
+        logDestroy();
     }
 
     protected void runAll(Queue<Runnable> queue) {
